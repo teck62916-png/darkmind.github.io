@@ -1,0 +1,1036 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dark Mind — Psychologie Sombre</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Bebas+Neue&family=Inter:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --noir: #050505;
+    --rouge: #8B0000;
+    --rouge-vif: #C0392B;
+    --or: #C9A84C;
+    --or-clair: #E8C97A;
+    --blanc: #F5F0E8;
+    --gris: #1A1A1A;
+    --gris-clair: #2A2A2A;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--noir);
+    color: var(--blanc);
+    font-family: 'Inter', sans-serif;
+    font-weight: 300;
+    overflow-x: hidden;
+    cursor: crosshair;
+  }
+
+  /* GRAIN OVERLAY */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.4;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    padding: 24px 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 100;
+    background: linear-gradient(to bottom, rgba(5,5,5,0.95), transparent);
+  }
+
+  .logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.6rem;
+    letter-spacing: 0.3em;
+    color: var(--or);
+    text-decoration: none;
+  }
+
+  .logo span { color: var(--rouge-vif); }
+
+  nav ul {
+    list-style: none;
+    display: flex;
+    gap: 40px;
+  }
+
+  nav ul a {
+    color: var(--blanc);
+    text-decoration: none;
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    opacity: 0.7;
+    transition: opacity 0.3s, color 0.3s;
+  }
+
+  nav ul a:hover { opacity: 1; color: var(--or); }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    position: relative;
+    padding: 120px 48px 80px;
+    overflow: hidden;
+  }
+
+  /* BG EFFECTS */
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+  }
+
+  .hero-bg::before {
+    content: '';
+    position: absolute;
+    top: -20%;
+    right: -10%;
+    width: 700px;
+    height: 700px;
+    background: radial-gradient(circle, rgba(139,0,0,0.12) 0%, transparent 70%);
+    animation: pulse 6s ease-in-out infinite;
+  }
+
+  .hero-bg::after {
+    content: '';
+    position: absolute;
+    bottom: -20%;
+    left: -10%;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(201,168,76,0.06) 0%, transparent 70%);
+    animation: pulse 8s ease-in-out infinite reverse;
+  }
+
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.1); opacity: 0.7; }
+  }
+
+  /* DECORATIVE LINE */
+  .deco-line {
+    position: absolute;
+    top: 0;
+    left: 48px;
+    width: 1px;
+    height: 100%;
+    background: linear-gradient(to bottom, transparent, var(--or) 30%, var(--rouge) 70%, transparent);
+    opacity: 0.3;
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 1;
+    max-width: 900px;
+    margin-left: 80px;
+  }
+
+  .eyebrow {
+    font-size: 0.7rem;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--rouge-vif);
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 0.3s;
+  }
+
+  .eyebrow::before {
+    content: '';
+    width: 40px;
+    height: 1px;
+    background: var(--rouge-vif);
+  }
+
+  .hero-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(3rem, 8vw, 7rem);
+    font-weight: 300;
+    line-height: 0.95;
+    margin-bottom: 32px;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 0.5s;
+  }
+
+  .hero-title em {
+    font-style: italic;
+    color: var(--or);
+    display: block;
+  }
+
+  .hero-title strong {
+    font-weight: 600;
+    color: var(--blanc);
+    -webkit-text-stroke: 1px rgba(245,240,232,0.3);
+  }
+
+  .hero-subtitle {
+    font-size: 1rem;
+    line-height: 1.8;
+    max-width: 520px;
+    opacity: 0.6;
+    margin-bottom: 56px;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 0.7s;
+  }
+
+  .hero-subtitle.visible { opacity: 0.6; }
+
+  /* Fix double opacity */
+  .hero-subtitle {
+    animation: fadeUpSub 0.8s ease forwards 0.7s;
+  }
+
+  @keyframes fadeUpSub {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 0.6; transform: translateY(0); }
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* FORM */
+  .form-wrapper {
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 0.9s;
+  }
+
+  .form-label {
+    font-size: 0.7rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--or);
+    margin-bottom: 16px;
+    display: block;
+  }
+
+  .form-row {
+    display: flex;
+    gap: 0;
+    max-width: 520px;
+    border: 1px solid rgba(201,168,76,0.3);
+    transition: border-color 0.3s;
+  }
+
+  .form-row:focus-within {
+    border-color: var(--or);
+    box-shadow: 0 0 30px rgba(201,168,76,0.08);
+  }
+
+  .form-row input {
+    flex: 1;
+    background: rgba(255,255,255,0.03);
+    border: none;
+    padding: 18px 24px;
+    color: var(--blanc);
+    font-family: 'Inter', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 300;
+    outline: none;
+  }
+
+  .form-row input::placeholder { color: rgba(245,240,232,0.3); }
+
+  .form-row button {
+    background: var(--rouge);
+    border: none;
+    padding: 18px 28px;
+    color: var(--blanc);
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 0.85rem;
+    letter-spacing: 0.2em;
+    cursor: pointer;
+    transition: background 0.3s;
+    white-space: nowrap;
+  }
+
+  .form-row button:hover { background: var(--rouge-vif); }
+
+  .form-disclaimer {
+    margin-top: 12px;
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    color: rgba(245,240,232,0.25);
+  }
+
+  /* SUCCESS MESSAGE */
+  .success-msg {
+    display: none;
+    align-items: center;
+    gap: 16px;
+    padding: 20px 28px;
+    border: 1px solid rgba(201,168,76,0.4);
+    background: rgba(201,168,76,0.05);
+    max-width: 520px;
+  }
+
+  .success-msg .check {
+    width: 32px;
+    height: 32px;
+    border: 1px solid var(--or);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--or);
+    font-size: 1rem;
+    flex-shrink: 0;
+  }
+
+  .success-msg p { font-size: 0.85rem; line-height: 1.6; }
+  .success-msg p span { color: var(--or); }
+
+  /* WHAT'S INSIDE */
+  .ebook-section {
+    padding: 120px 48px;
+    position: relative;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 48px;
+    margin-bottom: 80px;
+    margin-left: 80px;
+  }
+
+  .section-number {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 8rem;
+    color: rgba(201,168,76,0.06);
+    line-height: 1;
+    flex-shrink: 0;
+  }
+
+  .section-title-block {}
+
+  .section-tag {
+    font-size: 0.65rem;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--rouge-vif);
+    margin-bottom: 12px;
+  }
+
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2rem, 4vw, 3.5rem);
+    font-weight: 300;
+    line-height: 1.1;
+  }
+
+  .section-title em { font-style: italic; color: var(--or); }
+
+  /* EBOOK CARD */
+  .ebook-showcase {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 64px;
+    align-items: center;
+    margin-left: 80px;
+  }
+
+  .ebook-cover {
+    aspect-ratio: 3/4;
+    background: var(--gris);
+    position: relative;
+    overflow: hidden;
+    max-width: 340px;
+  }
+
+  .ebook-cover::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(139,0,0,0.4) 0%, rgba(5,5,5,0.8) 50%, rgba(201,168,76,0.15) 100%);
+  }
+
+  .ebook-cover-inner {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 40px 32px;
+    border: 1px solid rgba(201,168,76,0.15);
+    margin: 12px;
+  }
+
+  .ebook-cover-top {
+    font-size: 0.6rem;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--or);
+    opacity: 0.7;
+  }
+
+  .ebook-cover-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.2rem;
+    font-weight: 300;
+    line-height: 1.1;
+    color: var(--blanc);
+  }
+
+  .ebook-cover-title em {
+    font-style: italic;
+    color: var(--or);
+  }
+
+  .ebook-cover-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+
+  .ebook-cover-sub {
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: rgba(245,240,232,0.4);
+    max-width: 120px;
+    line-height: 1.6;
+  }
+
+  .ebook-eye {
+    width: 48px;
+    height: 48px;
+    border: 1px solid rgba(201,168,76,0.3);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+  }
+
+  /* DECO CORNER */
+  .ebook-cover::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 60px;
+    height: 60px;
+    border-top: 2px solid var(--rouge);
+    border-right: 2px solid var(--rouge);
+  }
+
+  /* CHAPTERS */
+  .chapters-list {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .chapter-item {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 20px 0;
+    border-bottom: 1px solid rgba(245,240,232,0.05);
+    cursor: default;
+    transition: all 0.3s;
+  }
+
+  .chapter-item:hover .chapter-title { color: var(--or); }
+  .chapter-item:hover .chapter-num { border-color: var(--or); color: var(--or); }
+
+  .chapter-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+    color: rgba(245,240,232,0.3);
+    border: 1px solid rgba(245,240,232,0.1);
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: all 0.3s;
+  }
+
+  .chapter-content { flex: 1; }
+
+  .chapter-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.05rem;
+    font-weight: 400;
+    margin-bottom: 4px;
+    transition: color 0.3s;
+  }
+
+  .chapter-desc {
+    font-size: 0.72rem;
+    color: rgba(245,240,232,0.35);
+    letter-spacing: 0.05em;
+  }
+
+  .chapter-lock {
+    font-size: 0.75rem;
+    color: rgba(245,240,232,0.15);
+  }
+
+  /* SOCIAL PROOF */
+  .proof-section {
+    padding: 80px 48px;
+    border-top: 1px solid rgba(245,240,232,0.05);
+    border-bottom: 1px solid rgba(245,240,232,0.05);
+  }
+
+  .proof-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: rgba(245,240,232,0.05);
+    margin-left: 80px;
+  }
+
+  .proof-item {
+    background: var(--noir);
+    padding: 40px 32px;
+    text-align: center;
+  }
+
+  .proof-number {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 3.5rem;
+    font-weight: 300;
+    color: var(--or);
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+
+  .proof-label {
+    font-size: 0.65rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: rgba(245,240,232,0.4);
+  }
+
+  /* TESTIMONIALS */
+  .testimonials {
+    padding: 120px 48px;
+  }
+
+  .testimonials-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2px;
+    margin-left: 80px;
+    background: rgba(245,240,232,0.04);
+  }
+
+  .testimonial {
+    background: var(--noir);
+    padding: 40px;
+    position: relative;
+  }
+
+  .testimonial::before {
+    content: '"';
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 5rem;
+    color: var(--rouge);
+    opacity: 0.3;
+    position: absolute;
+    top: 20px;
+    left: 32px;
+    line-height: 1;
+  }
+
+  .testimonial-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.05rem;
+    font-style: italic;
+    line-height: 1.7;
+    margin-bottom: 24px;
+    padding-top: 32px;
+    color: rgba(245,240,232,0.8);
+  }
+
+  .testimonial-author {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .author-avatar {
+    width: 36px;
+    height: 36px;
+    background: var(--gris-clair);
+    border: 1px solid rgba(201,168,76,0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.9rem;
+    color: var(--or);
+  }
+
+  .author-info {}
+
+  .author-name {
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--or);
+  }
+
+  .author-detail {
+    font-size: 0.65rem;
+    color: rgba(245,240,232,0.3);
+    letter-spacing: 0.1em;
+  }
+
+  .stars {
+    color: var(--or);
+    font-size: 0.7rem;
+    margin-bottom: 8px;
+    letter-spacing: 2px;
+  }
+
+  /* CTA FINAL */
+  .cta-final {
+    padding: 120px 48px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cta-final::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(139,0,0,0.08) 0%, transparent 70%);
+  }
+
+  .cta-final-eyebrow {
+    font-size: 0.65rem;
+    letter-spacing: 0.5em;
+    text-transform: uppercase;
+    color: var(--rouge-vif);
+    margin-bottom: 24px;
+  }
+
+  .cta-final-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2.5rem, 5vw, 5rem);
+    font-weight: 300;
+    line-height: 1.05;
+    margin-bottom: 48px;
+    position: relative;
+  }
+
+  .cta-final-title em {
+    font-style: italic;
+    color: var(--or);
+  }
+
+  .cta-form-center {
+    max-width: 480px;
+    margin: 0 auto;
+  }
+
+  /* FOOTER */
+  footer {
+    padding: 40px 48px;
+    border-top: 1px solid rgba(245,240,232,0.05);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  footer p {
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    color: rgba(245,240,232,0.2);
+    text-transform: uppercase;
+  }
+
+  footer a {
+    color: rgba(245,240,232,0.2);
+    text-decoration: none;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    transition: color 0.3s;
+  }
+
+  footer a:hover { color: var(--or); }
+
+  /* FLOATING ORB */
+  .orb {
+    position: fixed;
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle, rgba(139,0,0,0.06) 0%, transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 1;
+    transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    mix-blend-mode: screen;
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    nav { padding: 20px 24px; }
+    nav ul { display: none; }
+    .hero { padding: 100px 24px 60px; }
+    .hero-content { margin-left: 0; }
+    .deco-line { left: 24px; }
+    .ebook-section { padding: 80px 24px; }
+    .section-header { margin-left: 0; flex-direction: column; gap: 16px; }
+    .section-number { font-size: 4rem; }
+    .ebook-showcase { grid-template-columns: 1fr; margin-left: 0; }
+    .ebook-cover { max-width: 100%; }
+    .proof-grid { grid-template-columns: 1fr; margin-left: 0; }
+    .proof-section { padding: 60px 24px; }
+    .testimonials { padding: 80px 24px; }
+    .testimonials-grid { grid-template-columns: 1fr; margin-left: 0; }
+    .cta-final { padding: 80px 24px; }
+    footer { flex-direction: column; gap: 16px; padding: 32px 24px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="orb" id="orb"></div>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="logo">DARK<span>MIND</span></a>
+  <ul>
+    <li><a href="#ebook">L'Ebook</a></li>
+    <li><a href="#contenu">Contenu</a></li>
+    <li><a href="#temoignages">Avis</a></li>
+    <li><a href="#cta">Accès Gratuit</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="deco-line"></div>
+
+  <div class="hero-content">
+    <div class="eyebrow">Accès Gratuit — Durée Limitée</div>
+
+    <h1 class="hero-title">
+      Ce que les autres<br>
+      <em>ne veulent pas</em><br>
+      <strong>que tu saches.</strong>
+    </h1>
+
+    <p class="hero-subtitle">
+      Un guide de psychologie sombre que la majorité ne lira jamais.
+      Comprendre les mécanismes cachés du comportement humain,
+      la manipulation invisible et les leviers que peu de gens connaissent.
+    </p>
+
+    <div class="form-wrapper" id="hero-form-wrapper">
+      <span class="form-label">Reçois l'ebook gratuitement</span>
+      <div class="form-row">
+        <input type="email" id="hero-email" placeholder="Ton adresse email…" autocomplete="email">
+        <button onclick="submitForm('hero')">Accéder →</button>
+      </div>
+      <p class="form-disclaimer">Aucun spam. Désabonnement en un clic. Ton email reste privé.</p>
+    </div>
+
+    <div class="success-msg" id="hero-success">
+      <div class="check">✓</div>
+      <p>L'ebook est en route. <span>Vérifie ta boîte mail</span> — il arrive dans les prochaines minutes.</p>
+    </div>
+  </div>
+</section>
+
+<!-- PROOF NUMBERS -->
+<div class="proof-section">
+  <div class="proof-grid">
+    <div class="proof-item">
+      <div class="proof-number">4,200+</div>
+      <div class="proof-label">Lecteurs ce mois</div>
+    </div>
+    <div class="proof-item">
+      <div class="proof-number">97%</div>
+      <div class="proof-label">Taux de satisfaction</div>
+    </div>
+    <div class="proof-item">
+      <div class="proof-number">0€</div>
+      <div class="proof-label">Coût total</div>
+    </div>
+  </div>
+</div>
+
+<!-- EBOOK SECTION -->
+<section class="ebook-section" id="ebook">
+  <div class="section-header">
+    <div class="section-number">01</div>
+    <div class="section-title-block">
+      <div class="section-tag">L'Ebook</div>
+      <h2 class="section-title">
+        Ce que tu vas<br>
+        <em>découvrir à l'intérieur</em>
+      </h2>
+    </div>
+  </div>
+
+  <div class="ebook-showcase" id="contenu">
+    <div class="ebook-cover">
+      <div class="ebook-cover-inner">
+        <div class="ebook-cover-top">Dark Mind — Volume I</div>
+        <div class="ebook-cover-title">
+          L'Art de<br>
+          <em>Voir</em><br>
+          ce que les<br>
+          autres cachent
+        </div>
+        <div class="ebook-cover-bottom">
+          <div class="ebook-cover-sub">Psychologie Sombre Appliquée</div>
+          <div class="ebook-eye">👁️</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="chapters-list">
+      <div class="chapter-item">
+        <div class="chapter-num">01</div>
+        <div class="chapter-content">
+          <div class="chapter-title">Les Masques que Tout le Monde Porte</div>
+          <div class="chapter-desc">Persona sociale, faux moi et identités fabriquées</div>
+        </div>
+      </div>
+      <div class="chapter-item">
+        <div class="chapter-num">02</div>
+        <div class="chapter-content">
+          <div class="chapter-title">La Manipulation Invisible</div>
+          <div class="chapter-desc">Techniques utilisées contre toi sans que tu le saches</div>
+        </div>
+      </div>
+      <div class="chapter-item">
+        <div class="chapter-num">03</div>
+        <div class="chapter-content">
+          <div class="chapter-title">Le Langage du Corps ne Ment Jamais</div>
+          <div class="chapter-desc">Décoder les signaux que les mots dissimulent</div>
+        </div>
+      </div>
+      <div class="chapter-item">
+        <div class="chapter-num">04</div>
+        <div class="chapter-content">
+          <div class="chapter-title">L'Ego comme Arme et comme Prison</div>
+          <div class="chapter-desc">Comment l'ego contrôle les décisions des autres</div>
+        </div>
+      </div>
+      <div class="chapter-item">
+        <div class="chapter-num">05</div>
+        <div class="chapter-content">
+          <div class="chapter-title">Se Protéger sans Devenir Froid</div>
+          <div class="chapter-desc">Construire des blindages psychologiques solides</div>
+        </div>
+        <div class="chapter-lock">🔒</div>
+      </div>
+      <div class="chapter-item">
+        <div class="chapter-num">06</div>
+        <div class="chapter-content">
+          <div class="chapter-title">Le Pouvoir du Silence Stratégique</div>
+          <div class="chapter-desc">Pourquoi parler moins donne plus de contrôle</div>
+        </div>
+        <div class="chapter-lock">🔒</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials" id="temoignages">
+  <div class="section-header">
+    <div class="section-number">02</div>
+    <div class="section-title-block">
+      <div class="section-tag">Témoignages</div>
+      <h2 class="section-title">
+        Ce qu'ils ont dit<br>
+        <em>après l'avoir lu</em>
+      </h2>
+    </div>
+  </div>
+
+  <div class="testimonials-grid">
+    <div class="testimonial">
+      <div class="stars">★★★★★</div>
+      <p class="testimonial-text">
+        J'ai relu certains passages trois fois. Ce n'est pas un ebook de plus sur la psychologie. C'est un miroir. Et tout le monde n'est pas prêt à se regarder dedans.
+      </p>
+      <div class="testimonial-author">
+        <div class="author-avatar">K</div>
+        <div class="author-info">
+          <div class="author-name">Karim B.</div>
+          <div class="author-detail">Abidjan, Côte d'Ivoire</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="testimonial">
+      <div class="stars">★★★★★</div>
+      <p class="testimonial-text">
+        Je pensais comprendre les gens. Cet ebook m'a montré que j'étais moi-même manipulé sans le voir. Maintenant je lis les situations différemment.
+      </p>
+      <div class="testimonial-author">
+        <div class="author-avatar">A</div>
+        <div class="author-info">
+          <div class="author-name">Aminata S.</div>
+          <div class="author-detail">Dakar, Sénégal</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="testimonial">
+      <div class="stars">★★★★★</div>
+      <p class="testimonial-text">
+        Gratuit mais plus puissant que des livres que j'ai payés cher. La partie sur le silence stratégique a changé ma façon de négocier au travail.
+      </p>
+      <div class="testimonial-author">
+        <div class="author-avatar">D</div>
+        <div class="author-info">
+          <div class="author-name">David M.</div>
+          <div class="author-detail">Paris, France</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="testimonial">
+      <div class="stars">★★★★★</div>
+      <p class="testimonial-text">
+        Ce que j'aimais dans la vidéo YouTube, je l'ai retrouvé ici en 10 fois plus profond. La psychologie sombre expliquée simplement mais sans édulcorer la vérité.
+      </p>
+      <div class="testimonial-author">
+        <div class="author-avatar">F</div>
+        <div class="author-info">
+          <div class="author-name">Fatou D.</div>
+          <div class="author-detail">Lomé, Togo</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA FINAL -->
+<section class="cta-final" id="cta">
+  <div class="cta-final-eyebrow">Dernière Chance — Accès Gratuit</div>
+  <h2 class="cta-final-title">
+    Tu es prêt à voir<br>
+    <em>ce que peu de gens</em><br>
+    voient ?
+  </h2>
+
+  <div class="cta-form-center">
+    <div id="cta-form-wrapper">
+      <div class="form-row" style="margin: 0 auto;">
+        <input type="email" id="cta-email" placeholder="Ton adresse email…" autocomplete="email">
+        <button onclick="submitForm('cta')">Accéder →</button>
+      </div>
+      <p class="form-disclaimer" style="text-align:center; margin-top: 12px;">
+        Aucun spam. Désabonnement en un clic.
+      </p>
+    </div>
+
+    <div class="success-msg" id="cta-success" style="margin: 0 auto;">
+      <div class="check">✓</div>
+      <p>C'est parti. <span>Vérifie ta boîte mail</span> — l'ebook t'attend.</p>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>© 2025 DarkMind — Tous droits réservés</p>
+  <div style="display:flex; gap: 32px;">
+    <a href="#">Confidentialité</a>
+    <a href="#">Contact</a>
+    <a href="#">Se désabonner</a>
+  </div>
+</footer>
+
+<script>
+  // Orb follow mouse
+  const orb = document.getElementById('orb');
+  document.addEventListener('mousemove', (e) => {
+    orb.style.transform = `translate(${e.clientX - 150}px, ${e.clientY - 150}px)`;
+  });
+
+  // Form submission
+  function submitForm(id) {
+    const emailInput = document.getElementById(id + '-email');
+    const formWrapper = document.getElementById(id + '-form-wrapper');
+    const successMsg = document.getElementById(id + '-success');
+
+    const email = emailInput ? emailInput.value.trim() : '';
+
+    if (!email || !email.includes('@')) {
+      emailInput.style.borderBottom = '1px solid var(--rouge-vif)';
+      emailInput.placeholder = 'Entre un email valide…';
+      emailInput.style.color = 'rgba(192,57,43,0.8)';
+      setTimeout(() => {
+        emailInput.style.color = '';
+        emailInput.placeholder = 'Ton adresse email…';
+      }, 2000);
+      return;
+    }
+
+    // Show success
+    if (formWrapper) formWrapper.style.display = 'none';
+    if (successMsg) {
+      successMsg.style.display = 'flex';
+      successMsg.style.animation = 'fadeUp 0.5s ease forwards';
+    }
+
+    // Also hide hero form if both submitted
+    console.log('Email captured:', email);
+  }
+
+  // Intersection Observer for subtle entrance animations
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.style.opacity = '1';
+        entry.target.style.transform = 'translateY(0)';
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.chapter-item, .testimonial, .proof-item').forEach(el => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(16px)';
+    el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+    observer.observe(el);
+  });
+</script>
+</body>
+</html>
